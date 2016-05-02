@@ -1,7 +1,7 @@
 #include "field.h"
 #include "glm/gtx/rotate_vector.hpp"
 
-glm::vec2 ToCell(float x, float y, bool mul = 1)
+glm::vec2 Field::ToCell(float x, float y, bool mul)
 {
     float f = 1;
     if (mul == 0)
@@ -12,14 +12,14 @@ glm::vec2 ToCell(float x, float y, bool mul = 1)
     return glm::vec2(buf.x, buf.y);
 }
 
-glm::vec2 ToCell(glm::vec2 pos, bool mul = 1)
+glm::vec2 Field::ToCell(glm::vec2 pos, bool mul)
 {
 
     return ToCell(pos.x, pos.y, mul);
 }
 
 Field::Field():
-    _size(10)
+    _size(30)
 {
     _field.reserve(_size.x);
     _field.resize(_size.x);
@@ -48,7 +48,7 @@ void Field::Draw()
 void Field::DrawTile(int i, int j, GLuint texture)
 {
 
-    /*glm::vec2 pos = ToCell(i, j);
+    glm::vec2 pos = ToCell(i, j);
     float size = .7f;
     {
         glColor3f(1,1,1);
@@ -63,7 +63,7 @@ void Field::DrawTile(int i, int j, GLuint texture)
         glVertex2fv(&glm::vec2(pos.x + size, pos.y - size)[0]);
         glTexCoord2f(1,1);
         glVertex2fv(&glm::vec2(pos.x + size, pos.y + size * 3.f )[0]);
-    glEnd();*/
+    glEnd();
 
 
     for (auto o : _field[i][j])
@@ -85,9 +85,22 @@ void Field::AddObject(int i, int j)
         Object o;
         o.SetPos(ToCell(i, j));
         o.SetSolid(true);
-        o.SetTexture(1);
-        if (i == 0 || j == 0 || i == _size.x - 1 || j == _size.y - 1)
-            o.SetTexture(2);
+        o.SetTexture(2);
         _field[i][j].push_back(o);
+    }
+}
+
+void Field::Click(int i, int j)
+{
+    if (IsValidIndexs(i, j))
+    {
+        if (_field[i][j].size() > 0)
+        {
+            _field[i][j].clear();
+        }
+        else
+        {
+            AddObject(i, j);
+        }
     }
 }

@@ -24,7 +24,11 @@ public:
     void Draw();
     void DrawTile(int i, int j, GLuint texture);
     void AddObject(int i, int j);
+    void Click(int i, int j);
     bool IsValidIndexs(int i, int j);
+
+    static glm::vec2 ToCell(float x, float y, bool mul = 1);
+    static glm::vec2 ToCell(glm::vec2 pos, bool mul = 1);
 
 private:
     glm::vec2 _size;

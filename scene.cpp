@@ -37,8 +37,8 @@ void Scene::resizeGL(int w, int h) // изменение размера
 
     float r = w / h;
 
-    _hor = glm::vec2(-10, 10);
-    _vert = glm::vec2(-5, 15);
+    _hor = glm::vec2(-30, 30);
+    _vert = glm::vec2(-5, 45);
     _depth = glm::vec2(2, -2);
 
     glOrtho(_hor.x, _hor.y, _vert.x, _vert.y, _depth.x, _depth.y);
@@ -91,29 +91,11 @@ void Scene::Update()
     UpdateStatistic(dt);
 }
 
-glm::vec2 ToCell2(float x, float y, bool mul = 1)
-{
-    float f = 1;
-    if (mul == 0)
-    {
-        f = -1;
-    }
-    auto buf = glm::rotateZ(glm::vec3(x, y, 0),  f * 45.f / 180.f * 3.14f);
-    return glm::vec2(buf.x, buf.y);
-}
-
-glm::vec2 ToCell2(glm::vec2 pos, bool mul = 1)
-{
-
-    return ToCell2(pos.x, pos.y, mul);
-}
-
-
 void Scene::mousePressEvent(QMouseEvent* pe) // нажатие клавиши мыши
 {
-   _mousePos = ToCell2(ScreenToWorld(pe->pos()), 0);
+   _mousePos = Field::ToCell(ScreenToWorld(pe->pos()), 0);
    setWindowTitle(QString::number(round(_mousePos.x)) + " " + QString::number(round(_mousePos.y)));
-   _f.AddObject(round(_mousePos.x), round(_mousePos.y));
+   _f.Click(round(_mousePos.x), round(_mousePos.y));
 }
 
 glm::vec2 Scene::ScreenToWorld(QPoint p) // переводит координаты окна в координаты сцены
