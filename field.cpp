@@ -38,6 +38,32 @@ Field::Field():
 
 void Field::Draw()
 {
+
+    for (int i = _size.x - 1; i >= 0; --i)
+    {
+        for (int j = _size.y - 1; j >= 0; --j)
+        {
+            glm::vec2 pos = ToCell(i, j);
+            float size = .7f;
+            {
+                glColor3f(1,1,1);
+            }
+            glBindTexture(GL_TEXTURE_2D, 1);
+            glBegin(GL_TRIANGLE_STRIP);
+                glTexCoord2f(0,0);
+                glVertex2fv(&glm::vec2(pos.x - size, pos.y - size)[0]);
+                glTexCoord2f(0,1);
+                glVertex2fv(&glm::vec2(pos.x - size, pos.y + size * 3.f)[0]);
+                glTexCoord2f(1,0);
+                glVertex2fv(&glm::vec2(pos.x + size, pos.y - size)[0]);
+                glTexCoord2f(1,1);
+                glVertex2fv(&glm::vec2(pos.x + size, pos.y + size * 3.f )[0]);
+            glEnd();
+        }
+    }
+
+
+
     for (int i = _size.x - 1; i >= 0; --i)
     {
         for (int j = _size.y - 1; j >= 0; --j)
@@ -50,7 +76,7 @@ void Field::Draw()
 void Field::DrawTile(int i, int j, GLuint texture)
 {
 
-    glm::vec2 pos = ToCell(i, j);
+   /* glm::vec2 pos = ToCell(i, j);
     float size = .7f;
     {
         glColor3f(1,1,1);
@@ -61,17 +87,33 @@ void Field::DrawTile(int i, int j, GLuint texture)
         glVertex2fv(&glm::vec2(pos.x - size, pos.y - size)[0]);
         glTexCoord2f(0,1);
         glVertex2fv(&glm::vec2(pos.x - size, pos.y + size * 3.f)[0]);
-        glTexCoord2f(1,0);
+        glTexCoord2f(1,0);glm::vec2 pos = ToCell(i, j);
+        float size = .7f;
+        {
+            glColor3f(1,1,1);
+        }
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glBegin(GL_TRIANGLE_STRIP);
+            glTexCoord2f(0,0);
+            glVertex2fv(&glm::vec2(pos.x - size, pos.y - size)[0]);
+            glTexCoord2f(0,1);
+            glVertex2fv(&glm::vec2(pos.x - size, pos.y + size * 3.f)[0]);
+            glTexCoord2f(1,0);
+            glVertex2fv(&glm::vec2(pos.x + size, pos.y - size)[0]);
+            glTexCoord2f(1,1);
+            glVertex2fv(&glm::vec2(pos.x + size, pos.y + size * 3.f )[0]);
+        glEnd();
         glVertex2fv(&glm::vec2(pos.x + size, pos.y - size)[0]);
         glTexCoord2f(1,1);
         glVertex2fv(&glm::vec2(pos.x + size, pos.y + size * 3.f )[0]);
-    glEnd();
+    glEnd();*/
 
 
     for (auto o : _field[i][j])
     {
-        auto pos = ToCell(o->GetPos());
-        o->Draw(pos);
+        auto pos = ToCell(i, j);
+        auto dp = ToCell(((LiveObject*)(&(*o)))->GetTimer() - 0.5f, 0);
+        o->Draw(pos + dp);
     }
 }
 

@@ -20,3 +20,14 @@ void LiveObject::Update(float dt)
         _timer -= 1.f;
     }
 }
+
+void LiveObject::SetSpeed(int sx, int sy)
+{
+    _speed.x = sx;
+    _speed.y = sy;
+}
+
+float LiveObject::GetTimer()
+{
+    return _timer;
+}
