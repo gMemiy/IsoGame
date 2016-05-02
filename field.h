@@ -2,6 +2,7 @@
 #define FIELD_H
 
 #include "object.h"
+#include "liveobject.h"
 
 #include <vector>
 #include <glm/glm.hpp>
@@ -15,7 +16,7 @@ enum Type
 
 
 
-typedef std::vector<std::list<Object>> Vector;
+typedef std::vector<std::list<ObjPtr>> Vector;
 
 class Field
 {
@@ -26,6 +27,7 @@ public:
     void AddObject(int i, int j);
     void Click(int i, int j);
     bool IsValidIndexs(int i, int j);
+    void Update(float dt);
 
     static glm::vec2 ToCell(float x, float y, bool mul = 1);
     static glm::vec2 ToCell(glm::vec2 pos, bool mul = 1);

@@ -1,6 +1,8 @@
 #include "field.h"
 #include "glm/gtx/rotate_vector.hpp"
 
+
+
 glm::vec2 Field::ToCell(float x, float y, bool mul)
 {
     float f = 1;
@@ -68,7 +70,8 @@ void Field::DrawTile(int i, int j, GLuint texture)
 
     for (auto o : _field[i][j])
     {
-        o.Draw();
+        auto pos = ToCell(o->GetPos());
+        o->Draw(pos);
     }
 }
 
@@ -82,10 +85,10 @@ void Field::AddObject(int i, int j)
 {
     if (IsValidIndexs(i, j))
     {
-        Object o;
-        o.SetPos(ToCell(i, j));
-        o.SetSolid(true);
-        o.SetTexture(2);
+        LiveObjectPtr o = LiveObjectPtr(new LiveObject());
+        o->SetPos(glm::vec2(i, j));
+        o->SetSolid(true);
+        o->SetTexture(2);
         _field[i][j].push_back(o);
     }
 }
@@ -101,6 +104,46 @@ void Field::Click(int i, int j)
         else
         {
             AddObject(i, j);
+        }
+    }
+}
+
+void Field::Update(float dt)
+{
+    for (auto v : _field)
+    {
+        for (auto l : v)
+        {
+            for (auto o : l)
+            {
+                o->Update(dt);
+            }
+        }
+    }
+
+
+    for (int i = 0; i < _size.x; ++i)
+    {
+        for (int j = 0; j < _size.x; ++j)
+        {
+            for (auto o = _field[i][j].begin(); o != _field[i][j].end();)
+            {
+                auto p = (*o)->GetPos();
+                glm::vec2 pos(round(p.x), round(p.y));
+                if ((pos.x != i || pos.y != j) && IsValidIndexs(pos.x, pos.y))
+                {
+                    _field[pos.x][pos.y].push_back(*o);
+                    o = _field[i][j].erase(o);
+                }
+                else
+                {
+                    if (!IsValidIndexs(pos.x, pos.y))
+                    {
+                        (*o)->SetPos(glm::vec2(i, j));
+                    }
+                    ++o;
+                }
+            }
         }
     }
 }

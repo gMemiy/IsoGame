@@ -8,6 +8,11 @@ Object::Object():
 
 }
 
+Object::~Object()
+{
+
+}
+
 void Object::SetPos(glm::vec2 pos)
 {
     _pos = pos;
@@ -23,19 +28,19 @@ void Object::SetTexture(GLuint texture)
     _texture = texture;
 }
 
-void Object::Draw()
+void Object::Draw(glm::vec2 pos)
 {
     float size = 0.7f;
     glBindTexture(GL_TEXTURE_2D, _texture);
     glBegin(GL_TRIANGLE_STRIP);
         glTexCoord2f(0,0);
-        glVertex2fv(&glm::vec2(_pos.x - size, _pos.y - size)[0]);
+        glVertex2fv(&glm::vec2(pos.x - size, pos.y - size)[0]);
         glTexCoord2f(0,1);
-        glVertex2fv(&glm::vec2(_pos.x - size, _pos.y + size * 3.f)[0]);
+        glVertex2fv(&glm::vec2(pos.x - size, pos.y + size * 3.f)[0]);
         glTexCoord2f(1,0);
-        glVertex2fv(&glm::vec2(_pos.x + size, _pos.y - size)[0]);
+        glVertex2fv(&glm::vec2(pos.x + size, pos.y - size)[0]);
         glTexCoord2f(1,1);
-        glVertex2fv(&glm::vec2(_pos.x + size, _pos.y + size * 3.f )[0]);
+        glVertex2fv(&glm::vec2(pos.x + size, pos.y + size * 3.f )[0]);
     glEnd();
 }
 

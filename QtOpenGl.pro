@@ -18,8 +18,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
     scene.cpp \
     field.cpp \
-    object.cpp
+    object.cpp \
+    liveobject.cpp
 
 HEADERS  += scene.h \
     field.h \
-    object.h
+    object.h \
+    liveobject.h

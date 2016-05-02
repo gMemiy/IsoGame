@@ -10,20 +10,23 @@ class Object
 public:
 
     Object();
+    virtual ~Object();
     void SetPos(glm::vec2 pos);
     glm::vec2 GetPos();
     void SetTexture(GLuint texture);
-    void Draw();
-    void Update(float dt);
+    virtual void Draw(glm::vec2 pos);
+    virtual void Update(float dt);
     void SetSolid(float solid);
     bool IsSolid();
 
-private:
+protected:
 
     bool _solid;
     GLuint _texture;
     glm::vec2 _pos;
 
 };
+
+typedef QSharedPointer<Object> ObjPtr;
 
 #endif // OBJECT_H

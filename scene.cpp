@@ -85,6 +85,7 @@ void Scene::Update()
 
     float dt = GetDt();
 
+    _f.Update(dt);
 
     updateGL(); // отрисовка
 
