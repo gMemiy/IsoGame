@@ -149,6 +149,18 @@ void Field::Update(float dt)
     }
 }
 
+
+void Field::AddObject(int x, int y, const std::string &type)
+{
+    auto o = PARENT_OBJECTS.find(type);
+    if (o != PARENT_OBJECTS.end())
+    {
+        ObjectPtr newObj(o->second->Clone());
+        GetCell(x, y).AddObject(newObj);
+    }
+
+}
+
 /*
 glm::vec2 Field::ToCell(float x, float y, bool mul)
 {

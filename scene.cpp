@@ -26,6 +26,14 @@ void Scene::initializeGL()
     _floor = InitTexture("images/floor.png");
     _tile = InitTexture("images/wall.png");
 
+
+    ObjectPtr o(new Object());
+    o->SetSolid(true);
+    o->SetTexture(_tile);
+
+    _f.PARENT_OBJECTS.insert(std::make_pair("wall", o));
+
+
     _f.SetFloorTexture(_floor);
     _f.Resize(10, 10);
     _f.SetAngle(45);
@@ -97,9 +105,11 @@ void Scene::Update()
 
 void Scene::mousePressEvent(QMouseEvent* pe) // нажатие клавиши мыши
 {
-   //_mousePos = Field::ToCell(ScreenToWorld(pe->pos()), 0);
-   setWindowTitle(QString::number(round(_mousePos.x)) + " " + QString::number(round(_mousePos.y)));
-   //_f.Click(round(_mousePos.x), round(_mousePos.y));
+    glm::vec2 p = ScreenToWorld(pe->pos());
+    QPoint mp = _f.GetCellByPos(p.x, p.y);
+    _f.AddObject(mp.x(), mp.y(), "wall");
+
+    setWindowTitle(QString::number(mp.x()) + " " + QString::number(mp.y()));
 }
 
 glm::vec2 Scene::ScreenToWorld(QPoint p) // переводит координаты окна в координаты сцены

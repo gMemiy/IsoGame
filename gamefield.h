@@ -3,6 +3,8 @@
 
 #include "field.h"
 
+
+
 class GameField : public Field
 {
 public:
@@ -15,6 +17,7 @@ public:
     void SetAngle(float angle);
 
     glm::vec2 GetCellPos(int i, int j);
+    QPoint GetCellByPos(float x, float y);
     void SetCellSize(float cellSize);
 
 private:

@@ -13,6 +13,14 @@ Object::~Object()
 
 }
 
+Object *Object::Clone()
+{
+    Object *o = new Object();
+    o->_texture = _texture;
+    o->_solid = _solid;
+    return o;
+}
+
 void Object::SetPos(glm::vec2 pos)
 {
     _pos = pos;

@@ -77,6 +77,12 @@ glm::vec2 GameField::GetCellPos(int i, int j)
     return glm::vec2(buf.x, buf.y);
 }
 
+QPoint GameField::GetCellByPos(float x, float y)
+{
+    auto buf = glm::rotateZ(glm::vec3(x, y, 0),  -_angle / 180.f * 3.14f);
+    return QPoint(round(buf.x / _cellSize), round(buf.y / _cellSize));
+}
+
 void GameField::SetCellSize(float cellSize)
 {
     if (cellSize > 0)

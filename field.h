@@ -8,11 +8,7 @@
 #include <glm/glm.hpp>
 #include "QtOpenGL"
 
-enum Type
-{
-    Busy,
-    Free
-};
+
 
 struct Cell
 {
@@ -57,7 +53,13 @@ public:
 
     void Update(float dt);
 
-    protected:
+    void AddObject(int x, int y, const std::string &type);
+
+
+
+    std::map<std::string, ObjectPtr> PARENT_OBJECTS;
+
+protected:
 
     Cell &GetCell(int x, int y);
 

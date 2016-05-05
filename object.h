@@ -11,6 +11,9 @@ public:
 
     Object();
     virtual ~Object();
+
+    Object *Clone();
+
     void SetPos(glm::vec2 pos);
     glm::vec2 GetPos();
     void SetTexture(GLuint texture);
@@ -28,5 +31,7 @@ protected:
 };
 
 typedef QSharedPointer<Object> ObjectPtr;
+
+
 
 #endif // OBJECT_H
