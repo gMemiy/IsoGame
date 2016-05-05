@@ -26,7 +26,10 @@ void Scene::initializeGL()
     _floor = InitTexture("images/floor.png");
     _tile = InitTexture("images/wall.png");
 
-    _f.AddObject(1,1);
+    _f.SetFloorTexture(_floor);
+    _f.Resize(10, 10);
+    _f.SetAngle(45);
+    _f.SetCellSize(3.f);
 
 }
 
@@ -94,9 +97,9 @@ void Scene::Update()
 
 void Scene::mousePressEvent(QMouseEvent* pe) // нажатие клавиши мыши
 {
-   _mousePos = Field::ToCell(ScreenToWorld(pe->pos()), 0);
+   //_mousePos = Field::ToCell(ScreenToWorld(pe->pos()), 0);
    setWindowTitle(QString::number(round(_mousePos.x)) + " " + QString::number(round(_mousePos.y)));
-   _f.Click(round(_mousePos.x), round(_mousePos.y));
+   //_f.Click(round(_mousePos.x), round(_mousePos.y));
 }
 
 glm::vec2 Scene::ScreenToWorld(QPoint p) // переводит координаты окна в координаты сцены

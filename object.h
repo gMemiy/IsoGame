@@ -14,7 +14,7 @@ public:
     void SetPos(glm::vec2 pos);
     glm::vec2 GetPos();
     void SetTexture(GLuint texture);
-    virtual void Draw(glm::vec2 pos);
+    virtual void Draw(glm::vec2 pos, float size);
     virtual void Update(float dt);
     void SetSolid(float solid);
     bool IsSolid();
@@ -27,6 +27,6 @@ protected:
 
 };
 
-typedef QSharedPointer<Object> ObjPtr;
+typedef QSharedPointer<Object> ObjectPtr;
 
 #endif // OBJECT_H

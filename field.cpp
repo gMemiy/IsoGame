@@ -1,8 +1,155 @@
 #include "field.h"
-#include "glm/gtx/rotate_vector.hpp"
 
 
 
+Cell::~Cell()
+{
+    _objects.clear();
+}
+
+int Cell::GetValue()
+{
+    return _val;
+}
+int Cell::GetObjectsCount()
+{
+    return _objects.size();
+}
+
+ObjectPtr Cell::GetObject(int index)
+{
+    if (index >= 0 && index < _objects.size())
+    {
+        auto o = _objects.begin();
+
+        for (int i = 0;  i < index; ++i, ++o);
+
+        return *(o);
+    }
+    return ObjectPtr(nullptr);
+}
+void Cell::RemoveObject(ObjectPtr o)
+{
+    _objects.remove(o);
+    SolidUpdate();
+}
+bool Cell::IsSolid()
+{
+    return _isSolid;
+}
+
+void Cell::SetValue(int val)
+{
+    _val = val;
+}
+void Cell::AddObject(ObjectPtr o)
+{
+    _isSolid = _isSolid || o->IsSolid();
+    _objects.push_back(o);
+}
+
+void Cell::SolidUpdate()
+{
+    _isSolid = false;
+    for (auto o : _objects)
+    {
+        _isSolid = _isSolid || o->IsSolid();
+        if (_isSolid)
+        {
+            break;
+        }
+    }
+}
+
+void Cell::Update(float dt)
+{
+    for (auto o : _objects)
+    {
+        o->Update(dt);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+Field::Field():
+    _sizeX(0)
+  , _sizeY(0)
+{
+
+}
+Field::Field(int sizeX, int sizeY):
+    _sizeX(sizeX)
+  , _sizeY(sizeY)
+{
+    Resize(sizeX, sizeY);
+}
+
+void Field::Resize(int sizeX, int sizeY)
+{
+    if (sizeX <= 0 && sizeY <= 0)
+    {
+        _sizeX = std::max(0, _sizeX);
+        _sizeY = std::max(0, _sizeY);
+    }
+    else
+    {
+        _sizeX = sizeX;
+        _sizeY = sizeY;
+
+        int size = _sizeX * _sizeY;
+
+        _field.clear();
+        _field.reserve(size);
+        _field.resize(size);
+    }
+}
+
+
+Field::~Field()
+{
+    _field.clear();
+}
+
+int Field::Value(int x, int y)
+{
+    if (IsValidIndex(x, y))
+    {
+        return GetCell(x, y).GetValue();
+    }
+    return -1;
+}
+bool Field::IsValidIndex(int x, int y)
+{
+    return x >= 0 && x < _sizeX && y >= 0 && y < _sizeY;
+}
+
+Cell &Field::GetCell(int x, int y)
+{
+    return _field[_sizeX * x + y];
+}
+
+int Field::Height()
+{
+    return _sizeX;
+}
+
+int Field::Width()
+{
+    return _sizeY;
+}
+
+void Field::Update(float dt)
+{
+    for (auto c : _field)
+    {
+        c.Update(dt);
+    }
+}
+
+/*
 glm::vec2 Field::ToCell(float x, float y, bool mul)
 {
     float f = 1;
@@ -106,7 +253,7 @@ void Field::DrawTile(int i, int j, GLuint texture)
         glVertex2fv(&glm::vec2(pos.x + size, pos.y - size)[0]);
         glTexCoord2f(1,1);
         glVertex2fv(&glm::vec2(pos.x + size, pos.y + size * 3.f )[0]);
-    glEnd();*/
+    glEnd();
 
 
     for (auto o : _field[i][j])
@@ -189,3 +336,4 @@ void Field::Update(float dt)
         }
     }
 }
+*/

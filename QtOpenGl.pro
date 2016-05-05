@@ -19,9 +19,11 @@ SOURCES += main.cpp\
     scene.cpp \
     field.cpp \
     object.cpp \
-    liveobject.cpp
+    liveobject.cpp \
+    gamefield.cpp
 
 HEADERS  += scene.h \
     field.h \
     object.h \
-    liveobject.h
+    liveobject.h \
+    gamefield.h

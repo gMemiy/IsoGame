@@ -5,7 +5,7 @@
 #include <QtOpenGL>
 #include "glm/glm.hpp"
 
-#include "field.h"
+#include "gamefield.h"
 
 class Scene : public QGLWidget // класс для работы с  окном
 {
@@ -46,7 +46,7 @@ private:
     GLuint _tile;
     GLuint _floor;
 
-    Field _f;
+    GameField _f;
 
     QSharedPointer<QTime> _timer;
     float _oldTime;

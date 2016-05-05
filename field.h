@@ -14,11 +14,62 @@ enum Type
     Free
 };
 
+struct Cell
+{
+    ~Cell();
 
+    int GetValue();
+    int GetObjectsCount();
+    ObjectPtr GetObject(int index);
+    void RemoveObject(ObjectPtr o);
+    bool IsSolid();
 
-typedef std::vector<std::list<ObjPtr>> Vector;
+    void SetValue(int val);
+    void AddObject(ObjectPtr o);
+
+    void Update(float dt);
+
+private:
+
+    void SolidUpdate();
+
+    bool _isSolid = false;
+    int _val = 0;
+    std::list<ObjectPtr> _objects;
+};
+
 
 class Field
+{
+public:
+    Field();
+    Field(int sizeX, int sizeY);
+
+    virtual ~Field();
+
+    void Resize(int sizeX, int sizeY);
+
+    int Value(int x, int y);
+    bool IsValidIndex(int x, int y);
+
+    int Height();
+    int Width();
+
+    void Update(float dt);
+
+    protected:
+
+    Cell &GetCell(int x, int y);
+
+    int _sizeX;
+    int _sizeY;
+    std::vector<Cell> _field;
+};
+
+
+//typedef std::vector<std::list<ObjPtr>> Vector;
+
+/*class Field
 {
 public:
     Field();
@@ -36,5 +87,5 @@ private:
     glm::vec2 _size;
     std::vector<Vector> _field;
 };
-
+*/
 #endif // FIELD_H

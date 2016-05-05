@@ -28,9 +28,8 @@ void Object::SetTexture(GLuint texture)
     _texture = texture;
 }
 
-void Object::Draw(glm::vec2 pos)
+void Object::Draw(glm::vec2 pos, float size)
 {
-    float size = 0.7f;
     glBindTexture(GL_TEXTURE_2D, _texture);
     glBegin(GL_TRIANGLE_STRIP);
         glTexCoord2f(0,0);
